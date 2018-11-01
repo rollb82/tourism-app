@@ -1,0 +1,18 @@
+import React from "react";
+import PropTypes from 'prop-types';
+
+const FeaturedImage = (props) => {
+    const {imageSrc, alt} = props;
+    return(
+        <div>
+            <img src={imageSrc} alt={alt} />
+        </div>
+    );
+}
+
+export default FeaturedImage;
+
+FeaturedImage.propTypes = {
+    imageSrc: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired
+}
