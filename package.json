@@ -1,5 +1,5 @@
 {
-  "name": "tour-web-react",
+  "name": "tour-react-v2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -24,14 +24,19 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar --include-path ./src/styles --include-path ./node_modules src/styles/ -o src/styles/",
-    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src/styles --include-path ./node_modules src/styles/ -o src/styles --watch --recursive",
-    "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build": "npm run build-css && react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8080",
-  "homepage": "https://28solutions.com/tour-evl/"
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "proxy":"http://localhost:8080/wp-json/wp/v2"
 }

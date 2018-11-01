@@ -1,58 +1,51 @@
 import React, { Component } from 'react';
-import { createStore, applyMiddleware } from 'redux';
+import { HashRouter as Router, Route } from "react-router-dom";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import AppHeader from './components/shared/AppHeader';
-import AppHeaderNavigation from './components/shared/AppHeaderNavigation';
-import 'font-awesome/css/font-awesome.min.css';
 
 
-import tourReducer from './reducers/tourReducer';
-import ToursContainer from './components/tours/ToursContainer';
-import TourContainer from './components/tour/TourContainer';
-import PointContainer from './components/point/PointContainer';
-import LocationContainer from './components/location/LocationContainer';
-import LoadingComponent from './components/shared/LoadingComponent';
-import AppNavigation from './components/shared/AppNavigation';
-import AppFooter from './components/shared/AppFooter';
-import PageShell from './components/shared/PageShell';
-import PointAudioPlayer from './components/shared/PointAudio/PointAudioPlayer';
+//import logo from './logo.svg';
+import './App.css';
 
-import logo from './images/story-house-logo.png';
+//reducers
+import TourListReducer from './pages/ToursLists/reducers';
+import TourReducer from './pages/Tour/reducers';
+import AudioPlayerReducer from './pages/AudioPlayer/reducers';
 
-import './styles/index.css';
+//components
+import ToursList from './pages/ToursLists';
+import Tour from './pages/Tour';
+import AudioPlayer from './pages/AudioPlayer';
 
-const store = createStore(tourReducer, applyMiddleware(thunk, logger));
-
+const store = createStore(
+  combineReducers({
+    TourListReducer,
+    TourReducer,
+    AudioPlayerReducer
+  }), 
+  applyMiddleware(
+    logger, thunk
+  ));
 
 class App extends Component {
-
-  componentDidUpdate() {
-    console.log('updated');
-  }
-
   render() {
     return (
       <Provider store={store}>
         <Router>
-          <div>
-          <PointAudioPlayer />
-            <AppHeader logo={logo} />
-            <AppHeaderNavigation />
-            <AppNavigation />
-            <div className="container">
-              <div className="row">
-                <LoadingComponent />
-                <Route exact path="/" component={PageShell(ToursContainer)} />
-                <Route path="/tour/:id" component={PageShell(TourContainer)} />
-                <Route path="/location/:id" component={PageShell(LocationContainer)} />
-                <Route path="/point/:id" component={PageShell(PointContainer)} />
-              </div>
+          <div className="App">
+            <div className="app-header">
+              place nav here
             </div>
-            
-                <AppFooter />
+            <div className="app-main-container">
+              <Route exact path="/" component={ToursList} />
+              <Route exact path="/tour/:id" component={Tour} />
+              <Route path="/tour/:id/audio/:id" component={AudioPlayer} />
+            </div>
+            <div className="app-footer">
+
+            </div>
           </div>
         </Router>
       </Provider>
@@ -60,7 +53,4 @@ class App extends Component {
   }
 }
 
-
 export default App;
-
-
