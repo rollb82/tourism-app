@@ -4,6 +4,11 @@ This project is a proof of concept for interactive audio tours using React.
 
 I am utilizing a Content Management system which will contain a few custom objects.
 
+## Starting the app
+This project was created with create react app. Start the application by running **yarn start**.
+
+You will have to run a docker container containing the  Wordpress site build that contains the custom post objects (Tour, Location, and Points of Interests).
+
 These custom objects are the following:
 
 - *Tours:* Tours contain multiple locations that a user wants to visit. 
