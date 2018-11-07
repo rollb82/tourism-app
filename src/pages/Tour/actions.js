@@ -12,3 +12,10 @@ export const getTour = (id) => {
         });
     }
 }
+
+export const setTour = (tourObject) =>{
+    return{
+        type: 'GET_TOUR',
+        payload: tourObject
+    }
+}

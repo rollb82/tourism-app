@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { getTour } from './actions';
+import { getTour, setTour } from './actions';
 //import TourReducer from "./reducers";
 
 import Location from './components/Location';
@@ -18,7 +18,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getTour: (id) => dispatch(getTour(id))
+        getTour: (id) => dispatch(getTour(id)),
+        setTour: (tourObj) => dispatch(setTour(tourObj))
     }
 }
 
@@ -26,12 +27,24 @@ const mapDispatchToProps = (dispatch) => {
 class Tour extends Component {
 
     componentDidMount() {
-        this.props.getTour(9);
+        const { id } = this.props.match.params;
+        const { tours } = this.props.state.TourListReducer;
+
+        const tourFound = tours.find(element => {
+            return element.id === Number(id);
+        });
+        if (tourFound) {
+            this.props.setTour(tourFound)
+        }
+        else {
+            this.props.getTour(id);
+        }
+
     }
     render() {
-        //TourReducer.tour
-        const { tour } = this.props.state.TourReducer;        
-        
+
+        const { tour } = this.props.state.TourReducer;
+
         if (tour.id !== undefined) {
             const { acf, featured_image, id } = tour;
             const title = tour.title.rendered;

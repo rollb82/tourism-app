@@ -27,10 +27,10 @@ class TourList extends Component {
             return (
                 <div>
                     {tours.map((element, index) => {
-                        //const {title} = element;
+                        const {id} = element;
                         return (
                             <div key={index}>
-                                <Link to={`tour/9`} >
+                                <Link to={`tour/${id}`} >
                                     <TourCard {...element} />
                                 </Link>
                             </div>
