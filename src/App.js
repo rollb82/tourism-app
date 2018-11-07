@@ -41,7 +41,7 @@ class App extends Component {
             <div className="app-main-container">
               <Route exact path="/" component={ToursList} />
               <Route exact path="/tour/:id" component={Tour} />
-              <Route path="/tour/:id/audio/:id" component={AudioPlayer} />
+              <Route path="/tour/:id/:locationID" component={AudioPlayer} />
             </div>
             <div className="app-footer">
 

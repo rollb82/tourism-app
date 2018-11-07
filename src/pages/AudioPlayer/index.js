@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { getTour, setAudioPlayList } from './actions';
 import { setContent } from './utils';
+
 const mapStateToProps = (state) => {
     return {
         state: state
@@ -17,52 +18,58 @@ const mapDispatchToProps = (dispatch) => {
 
 class AudioPlayerPage extends Component {
     componentDidMount() {
-        console.log();
-        if (this.props.state.TourReducer.tour.id) {
-            //console.log('id is defined');
-            const { tour } = this.props.state.TourReducer;
-            const { id } = this.props.match.params;
-            this.props.setAudioPlayList(id, tour);
+        const { params } = this.props.match;
+        const { TourReducer } = this.props.state;
+
+        if (TourReducer.tour.id !== undefined) {
+            const { tour } = TourReducer;
+            const { locationID } = params;
+            const { interesting_locations } = tour.acf;
+
+            const foundItem = interesting_locations.find(element => {
+                return element.id === Number(locationID);
+            });
+
+            this.props.setAudioPlayList(foundItem);
         }
         else {
-            //const {id} = this.props.match.params;            
-            this.props.getTour(9);
+            /**
+             * todo: create a request based on a user entering the applicatoin with a specific tour id and location id.
+             */
+            this.props.getTour(params.id);
         }
     }
 
     render() {
-        console.log(this.props.state.TourReducer);
         if (this.props.state.TourReducer.tour.id) {
             const { playList } = this.props.state.AudioPlayerReducer;
-            return (
-                <div>
-                    {playList.map((asset, index) => {
-                        const {audio} = asset.acf;
-                        const {featured_image} = asset;
-                        return (
-                            <div key={index}>
-                                <h1 dangerouslySetInnerHTML={setContent(asset.title.rendered)} />
-                                <p>
-                                    <img
-                                        width="200px" 
-                                        src={featured_image} 
-                                        alt={asset.title.rendered} />
-                                </p>
-                                {/*
-                                <p>
-                                    {audio.duration_of_audio}
-                                </p>
-                                 */}
-                                <p>
-                                <audio 
-                                    controls
-                                    src={audio.audio_file}></audio>
-                                </p>
-                            </div>
-                        );
-                    })}
-                </div>
-            );
+            if (playList === false) {
+                return (
+                    <div>
+                        there are no audio files associated to this tour.
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div>
+                        {playList.map((asset, index) => {
+                            const { audio } = asset.acf;
+                            //const { featured_image } = asset;
+                            return (
+                                <div key={index}>
+                                    <h1 dangerouslySetInnerHTML={setContent(asset.title.rendered)} />
+                                    <p>
+                                        <audio
+                                            controls
+                                            src={audio.audio_file}></audio>
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            }
         }
         else {
             return (

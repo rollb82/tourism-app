@@ -1,6 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types'
 
+/**
+ * TourMap: will create a google map component. 
+ * @param {*} props 
+ */
+
 const TourMap = (props) => {
     const {map} = props;
     const {lat, lng} = map;

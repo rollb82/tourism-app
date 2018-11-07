@@ -12,7 +12,7 @@ const Location = (props) =>{
             {locations.map((element, index)=> {                
                 return(
                     <div key={index}>
-                        <Link to={`./${id}/audio/${element.id}`}>
+                        <Link to={`./${id}/${element.id}`}>
                         <div>
                             <h3 dangerouslySetInnerHTML={setContent(element.title.rendered)} />
                         </div>
