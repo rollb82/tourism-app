@@ -1,8 +1,10 @@
 // My Bootstrap configuration
-//@import 'custom_bootstrap';
+@import 'custom_bootstrap';
 
 // Bootstrap library
 @import 'bootstrap/scss/bootstrap';
+@import 'audio_player';
+@import 'play_list';
 @import 'app';
 @import 'tourView';
 @import '_footer';

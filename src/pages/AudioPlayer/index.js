@@ -4,6 +4,8 @@ import { getTour, setAudioPlayList, setAudioPlay, handleToggle } from "./actions
 import { setContent } from "./utils";
 import LoadingComponent from "../shared/components/Loading";
 import ReactHowler from "react-howler";
+import AudioPlayerControls from './components/AudioControls';
+
 
 const mapStateToProps = state => {
   return {
@@ -36,6 +38,7 @@ class AudioPlayerPage extends Component {
     this.setCurrentTrack = this.setCurrentTrack.bind(this);
     this.nextTrack = this.nextTrack.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.prevTrack = this.prevTrack.bind(this);
   }
   componentDidMount() {
     
@@ -119,16 +122,12 @@ class AudioPlayerPage extends Component {
                 data,
                 currentIndex } = audioPlayer;
 
-            const style = {
-                width: "100%",
-                border: "1px solid #000"
-            };
 
             if (currentFile) {
                 return (
                     <div className="row">
                         <div className="col-lg-8">
-                            <div>{title}</div>
+                            
                             <ReactHowler
                                 src={currentFile}
                                 loop={false}
@@ -137,25 +136,30 @@ class AudioPlayerPage extends Component {
                             />
                             {currentFile !== null && data.featured_image !== false ? (
                                 <img
-                                    style={style}
-                                    className="img-responsive"
+                                    className="img-responsive audio-featured-image"
                                     src={data.featured_image}
                                     alt={title}
                                 />
                             ) : null}
+                            
+                            <div className="audio-player-title">
+                              <h1>{title}</h1>
+                            </div>
 
-                            {currentIndex === 0 ? null : <button onClick={() => this.prevTrack(currentIndex)}>Previous</button>}
-                            <button onClick={() => this.handleToggle()}>
-                                {playing ? <span>Pause</span> : <span>Play</span>}
-                            </button>
-                            {currentIndex === playList.length - 1 ? null : <button onClick={() => this.nextTrack(currentIndex)}>Next</button>}
-
+                            <AudioPlayerControls 
+                              playing={playing} 
+                              playList={playList}
+                              currentIndex={currentIndex}
+                              onPrevTrack={this.prevTrack}
+                              onNextTrack={this.nextTrack}
+                              onHandleToggle={this.handleToggle} />                            
                         </div>
                         <div className="col-lg-4">
-                            <div className="app-side-bar">
+                            <div className="app-play-list">
+                              <ul>
                                 {playList.map((asset, index) => {
                                     return (
-                                        <div key={index}>
+                                        <li key={index}>
                                             <a onClick={() => this.setCurrentTrack(index)}>
                                                 <span
                                                     dangerouslySetInnerHTML={setContent(
@@ -163,9 +167,10 @@ class AudioPlayerPage extends Component {
                                                     )}
                                                 />
                                             </a>
-                                        </div>
+                                        </li>
                                     );
                                 })}
+                                </ul>
                             </div>
                         </div>
                     </div>

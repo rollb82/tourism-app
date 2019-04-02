@@ -1,0 +1,16 @@
+.app-play-list{        
+    padding: 1em;
+    box-shadow: $container-box-shadow;
+    border-radius: $app-border-radius;
+
+    ul{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    li{
+        //border-bottom: 1px solid #ccc;
+        margin: 0;
+        padding: 0;
+    }
+}
