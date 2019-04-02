@@ -4,8 +4,8 @@ const DurationComponent = (props) => {
     const {duration} = props;
     return(
         <div>
-            place duration here
-            {duration}
+            Duration: {duration}
+            {duration > 1? ' hours': ' hour' }
         </div>
     );
 }

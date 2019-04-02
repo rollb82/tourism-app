@@ -1,17 +1,24 @@
 import React from 'react';
-
+import {setContent, getSummary} from '../shared/utils';
+import FeaturedImage from '../Tour/components/FeaturedImage';
 const TourCard = (props) => {
-    const { title, featured_image, acf } = props;
+    const { title, featured_image, acf, content:{rendered} } = props;
+    const summary = getSummary(rendered, 100);
     return (
-        <div>
-            <h1>
+                  
+            <div>            
+            <FeaturedImage height="200px" imageSrc={featured_image} alt={title.rendered} />
+            <h2>
                 {title.rendered}
-            </h1>
-            <img src={featured_image} alt={title.rendered} />
+            </h2>
+            {/**
             <div>
                 {acf.map.address}
             </div>
-        </div>
+             */}
+            <p dangerouslySetInnerHTML={setContent(summary)} />
+            </div>
+        
     );
 }
 

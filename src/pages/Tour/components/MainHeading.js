@@ -10,7 +10,11 @@ const MainHeading = (props) => {
     }
 
     return(
-        <h1 dangerouslySetInnerHTML={setContent(title)} />
+        <h1 
+            style={{
+                textAlign: 'center'
+            }}
+            dangerouslySetInnerHTML={setContent(title)} />
     );
 }
 

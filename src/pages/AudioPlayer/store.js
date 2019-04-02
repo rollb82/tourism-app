@@ -1,6 +1,8 @@
 const AudioTour = {
     tourId: null,
-    audioPlayer:{},
+    audioPlayer:{
+        currentTrack: {}
+    },
     playList:[]
 };
 

@@ -6,7 +6,7 @@ import { setContent } from "./utils";
 const TipsAndHours = (props) => {
     const {tips} = props;
     return(
-        <div>
+        <div className="app-tips">
             <h4>Tips &amp; Hours</h4>
             <div dangerouslySetInnerHTML={setContent(tips)} />
         </div>

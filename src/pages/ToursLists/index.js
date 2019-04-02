@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getTours } from './actions';
 import TourCard from './TourCard';
+import LoadingComponent from '../shared/components/Loading';
 import {Link} from 'react-router-dom';
 
 const mapStateToProps = (state) => {
@@ -25,11 +26,11 @@ class TourList extends Component {
         if (tours.length > 0) {
             
             return (
-                <div>
+                <div className="row">
                     {tours.map((element, index) => {
                         const {id} = element;
                         return (
-                            <div key={index}>
+                            <div  className="col-lg-4" key={index}>
                                 <Link to={`tour/${id}`} >
                                     <TourCard {...element} />
                                 </Link>
@@ -42,7 +43,7 @@ class TourList extends Component {
         else {
             return (
                 <div>
-                    none
+                <LoadingComponent />
                 </div>
             );
         }
