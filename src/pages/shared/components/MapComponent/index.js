@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import GoogleMapReact from 'google-map-react';
+import GOOGLEAPIKEY from '../../../../config';
+
 
 const MapComponent = (props) => {
     const { address } = props;
@@ -36,7 +38,7 @@ const MapComponent = (props) => {
             
             <div style={styles}>
                 <GoogleMapReact
-                    bootstrapURLKeys={{key:'AIzaSyCXhkqVBuywODZKWTOQUcODB-7O4FS4A_U'}}
+                    bootstrapURLKeys={{key:GOOGLEAPIKEY}}
                     defaultCenter={mapProperties.center}
                     defaultZoom={mapProperties.zoom}
                 >
