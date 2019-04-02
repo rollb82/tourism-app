@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import GoogleMapReact from 'google-map-react';
+import {GOOGLEAPIKEY} from '../../../config';
 
 const styles = {
     height: '200px',
@@ -38,7 +39,7 @@ const TourMap = (props) => {
                     {map.address}
                 </p>
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyCXhkqVBuywODZKWTOQUcODB-7O4FS4A_U' }}
+                    bootstrapURLKeys={{ key: GOOGLEAPIKEY }}
                     defaultCenter={mapProperties.center}
                     defaultZoom={mapProperties.zoom}>
                     <Pin
