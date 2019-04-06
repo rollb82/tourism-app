@@ -1,19 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import {getSummary, setContent} from '../../shared/utils';
+import {setContent} from '../../shared/utils';
 
 const Location = (props) => {
     const { locations, id } = props;
-    
-    
-
-
     return (
         <div className="location-list">
             {locations.map((element, index) => {
                 if (element.acf.audio.audio_file !== false) {
                     const { featured_image, title } = element;
-                    const appExcerpt = element['app-excerpt'];
                     return (
                         <Link key={index} to={`./${id}/${element.id}`}>
                             <div

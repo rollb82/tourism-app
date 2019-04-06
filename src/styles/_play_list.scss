@@ -1,7 +1,10 @@
 .app-play-list{        
+    background: #f5f5f5;
+    border-radius: 10px;
     padding: 1em;
-    box-shadow: $container-box-shadow;
-    border-radius: $app-border-radius;
+    margin: 0 0 1em 0;
+    -webkit-box-shadow: 0px 2px 6px 1px #ccc;
+    box-shadow: 0px 2px 6px 1px #ccc;
 
     ul{
         margin: 0;
