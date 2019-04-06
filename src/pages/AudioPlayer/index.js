@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getTour, setAudioPlayList, setAudioPlay, handleToggle } from "./actions";
+import {
+  getTour,
+  setAudioPlayList,
+  setAudioPlay,
+  handleToggle
+} from "./actions";
 import { setContent } from "./utils";
 import LoadingComponent from "../shared/components/Loading";
 import ReactHowler from "react-howler";
-import AudioPlayerControls from './components/AudioControls';
-
+import AudioPlayerControls from "./components/AudioControls";
+import PlayList from './components/PlayList';
 
 const mapStateToProps = state => {
   return {
@@ -41,16 +46,12 @@ class AudioPlayerPage extends Component {
     this.prevTrack = this.prevTrack.bind(this);
   }
   componentDidMount() {
-    
-
     const { params } = this.props.match;
     const { TourReducer } = this.props.state;
     const { locationID } = params;
 
-   
     this.props.getTour(params.id, locationID);
     this.setCurrentTrack(0);
-      
   }
 
   setCurrentTrack(index) {
@@ -65,7 +66,7 @@ class AudioPlayerPage extends Component {
       const title = track.title.rendered;
       const { audio_file } = track.acf.audio;
       const contentIndex = audio_file.indexOf(contentDirectory);
-      
+
       const currentTrack = {
         title,
         currentFile: audio_file.substring(contentIndex),
@@ -78,14 +79,13 @@ class AudioPlayerPage extends Component {
         ...currentTrack
       });
 
-      localStorage.setItem('currentTrack',JSON.stringify({...currentTrack}))
+      localStorage.setItem("currentTrack", JSON.stringify({ ...currentTrack }));
+    } else {
+      let currentTrack = JSON.parse(localStorage.getItem("currentTrack"));
 
-    } else {        
-        let currentTrack = JSON.parse(localStorage.getItem('currentTrack'));
-
-        this.props.setAudioPlay({
-            ...currentTrack
-        });
+      this.props.setAudioPlay({
+        ...currentTrack
+      });
     }
   }
 
@@ -99,92 +99,74 @@ class AudioPlayerPage extends Component {
     }
   }
 
-  prevTrack(currentIndex) {    
+  prevTrack(currentIndex) {
     //playList
     if (currentIndex - 1 <= 0) {
-      this.setCurrentTrack(currentIndex -1);
+      this.setCurrentTrack(currentIndex - 1);
     } else {
       this.setCurrentTrack(0);
     }
   }
 
-  handleToggle(){
-    const {playing} = this.props.state.AudioPlayerReducer.audioPlayer;
-    this.props.handleToggle(playing?false:true);
+  handleToggle() {
+    const { playing } = this.props.state.AudioPlayerReducer.audioPlayer;
+    this.props.handleToggle(playing ? false : true);
   }
 
-    render() {
-        const { audioPlayer, playList } = this.props.state.AudioPlayerReducer;
-        if (audioPlayer !== null) {
-            const { currentFile,
-                playing,
-                title,
-                data,
-                currentIndex } = audioPlayer;
+  render() {
+    const { audioPlayer, playList } = this.props.state.AudioPlayerReducer;
+    if (audioPlayer !== null) {
+      const { currentFile, playing, title, data, currentIndex } = audioPlayer;
 
+      if (currentFile) {
+        return (
+          <div className="row">
+            <div className="col-lg-8">
+              <ReactHowler
+                src={currentFile}
+                loop={false}
+                playing={playing}
+                onEnd={() => this.nextTrack(currentIndex)}
+              />
+              {currentFile !== null && data.featured_image !== false ? (
+                <img
+                  className="img-responsive audio-featured-image"
+                  src={data.featured_image}
+                  alt={title}
+                />
+              ) : null}
 
-            if (currentFile) {
-                return (
-                    <div className="row">
-                        <div className="col-lg-8">
-                            
-                            <ReactHowler
-                                src={currentFile}
-                                loop={false}
-                                playing={playing}
-                                onEnd={() => this.nextTrack(currentIndex)}
-                            />
-                            {currentFile !== null && data.featured_image !== false ? (
-                                <img
-                                    className="img-responsive audio-featured-image"
-                                    src={data.featured_image}
-                                    alt={title}
-                                />
-                            ) : null}
-                            
-                            <div className="audio-player-title">
-                              <h1>{title}</h1>
-                            </div>
+              <div className="audio-player-title">
+                <h1>{title}</h1>
+              </div>
 
-                            <AudioPlayerControls 
-                              playing={playing} 
-                              playList={playList}
-                              currentIndex={currentIndex}
-                              onPrevTrack={this.prevTrack}
-                              onNextTrack={this.nextTrack}
-                              onHandleToggle={this.handleToggle} />                            
-                        </div>
-                        <div className="col-lg-4">
-                            <div className="app-play-list">
-                              <ul>
-                                {playList.map((asset, index) => {
-                                    return (
-                                        <li key={index}>
-                                            <a onClick={() => this.setCurrentTrack(index)}>
-                                                <span
-                                                    dangerouslySetInnerHTML={setContent(
-                                                        asset.title.rendered
-                                                    )}
-                                                />
-                                            </a>
-                                        </li>
-                                    );
-                                })}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                );
-            } else {
-                return (
-                    <div>
-                        <LoadingComponent />
-                    </div>
-                );
-            }
-        }
+              <AudioPlayerControls
+                playing={playing}
+                playList={playList}
+                currentIndex={currentIndex}
+                onPrevTrack={this.prevTrack}
+                onNextTrack={this.nextTrack}
+                onHandleToggle={this.handleToggle}
+              />
+            </div>
+            <div className="col-lg-4">
+              < PlayList 
+                playList={playList}
+                currentIndex={currentIndex}
+                onSetCurrentTrack={this.setCurrentTrack}
+                onSetContent={setContent}/>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <LoadingComponent />
+          </div>
+        );
+      }
     }
-  
+  }
 }
 
 export default connect(
