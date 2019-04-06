@@ -13,6 +13,7 @@ import LoadingComponent from "../shared/components/Loading";
 import ReactHowler from "react-howler";
 import AudioPlayerControls from "./components/AudioControls";
 import PlayList from "./components/PlayList";
+import TrackImage from './components/TrackImage';
 
 const mapStateToProps = state => {
   return {
@@ -117,28 +118,21 @@ class AudioPlayerPage extends Component {
           
           <div className="row">
             <div className="col-lg-8">
-
-              <Link to={`../${params.id}`} className="btn btn-success"><
-                i className="fa fa-arrow-left" aria-hidden="true"></i> Back
-              </Link>
-
+              <div className="app-page-nav">
+                <Link to={`../${params.id}`} className="btn btn-success"><
+                  i className="fa fa-arrow-left" aria-hidden="true"></i> Back
+                </Link>
+              </div>
+              
               <ReactHowler
                 src={currentFile}
                 loop={false}
                 playing={playing}
                 onEnd={() => this.nextTrack(currentIndex)}
               />
-              {currentFile !== null && data.featured_image !== false ? (
-                <img
-                  className="img-responsive audio-featured-image"
-                  src={data.featured_image}
-                  alt={title}
-                />
-              ) : null}
 
-              <div className="audio-player-title">
-                <h1>{title}</h1>
-              </div>
+             
+              <TrackImage data={data} title={title} />
 
               <AudioPlayerControls
                 playing={playing}

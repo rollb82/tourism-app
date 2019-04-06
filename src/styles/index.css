@@ -6396,7 +6396,7 @@ a.text-dark:hover, a.text-dark:focus {
         color: #fff; }
         .audio-controls span button.app-btn-play:hover {
           transition: all .5s;
-          background: blue; }
+          background: #00b2b1; }
         .audio-controls span button.app-btn-play:active, .audio-controls span button.app-btn-play:focus {
           transition: all .5s;
           outline: none; }
@@ -6778,3 +6778,6 @@ body {
 .app-footer {
   background: #ccc;
   padding: 1em 0; }
+
+.app-page-nav {
+  margin: 0 0 0.5em 0; }
