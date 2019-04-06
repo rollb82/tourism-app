@@ -15,12 +15,12 @@
 }
 
 .audio-controls{
-    //background: red;
+    background:#fff;
     padding: 1em;    
     display: flex;
     box-shadow: $container-box-shadow;
     margin: 1em 0;
-    border-radius: 10px;
+    border-radius: $app-border-radius;
 
     span{        
         width:33%;
@@ -48,7 +48,7 @@
                 color: #fff;
                 &:hover{
                     transition: all .5s;
-                    background: blue;
+                    background: #00b2b1;
                 }
                 &:active,
                 &:focus
