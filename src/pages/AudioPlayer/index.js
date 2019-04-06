@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
 import {
   getTour,
   setAudioPlayList,
@@ -10,7 +12,7 @@ import { setContent } from "./utils";
 import LoadingComponent from "../shared/components/Loading";
 import ReactHowler from "react-howler";
 import AudioPlayerControls from "./components/AudioControls";
-import PlayList from './components/PlayList';
+import PlayList from "./components/PlayList";
 
 const mapStateToProps = state => {
   return {
@@ -30,15 +32,6 @@ const mapDispatchToProps = dispatch => {
 class AudioPlayerPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentTrack: {
-        playing: false,
-        currentFile: null,
-        title: null,
-        data: null,
-        currentIndex: null
-      }
-    };
 
     this.setCurrentTrack = this.setCurrentTrack.bind(this);
     this.nextTrack = this.nextTrack.bind(this);
@@ -47,7 +40,7 @@ class AudioPlayerPage extends Component {
   }
   componentDidMount() {
     const { params } = this.props.match;
-    const { TourReducer } = this.props.state;
+    //const { TourReducer } = this.props.state;
     const { locationID } = params;
 
     this.props.getTour(params.id, locationID);
@@ -115,13 +108,20 @@ class AudioPlayerPage extends Component {
 
   render() {
     const { audioPlayer, playList } = this.props.state.AudioPlayerReducer;
+    const { params } = this.props.match;
     if (audioPlayer !== null) {
       const { currentFile, playing, title, data, currentIndex } = audioPlayer;
 
       if (currentFile) {
         return (
+          
           <div className="row">
             <div className="col-lg-8">
+
+              <Link to={`../${params.id}`} className="btn btn-success"><
+                i className="fa fa-arrow-left" aria-hidden="true"></i> Back
+              </Link>
+
               <ReactHowler
                 src={currentFile}
                 loop={false}
@@ -150,11 +150,12 @@ class AudioPlayerPage extends Component {
               />
             </div>
             <div className="col-lg-4">
-              < PlayList 
+              <PlayList
                 playList={playList}
                 currentIndex={currentIndex}
                 onSetCurrentTrack={this.setCurrentTrack}
-                onSetContent={setContent}/>
+                onSetContent={setContent}
+              />
             </div>
           </div>
         );
